@@ -20,7 +20,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/moviesbd', {
   useNewUrlParser: true,
 }); //
 
-app.use(cors({ origin: ['http://localhost:3000', ''], credentials: true }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://klyuev-movies.nomoredomainsrocks.ru'], credentials: true }));
 
 // Создаем роуты
 app.use(cookies());
