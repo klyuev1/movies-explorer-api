@@ -6,7 +6,7 @@ const NoRightsError = require('../errors/NoRightsError');
 const CREATED = 201;
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((movies) => {
       movies.reverse();
       res.send(movies);

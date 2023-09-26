@@ -9,9 +9,11 @@ const CREATED = 201;
 
 const { JWT_SECRET = 'secret-word' } = process.env;
 
-module.exports.getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send({ users }))
+module.exports.getUserMe = (req, res, next) => {
+  const userId = req.user._id;
+  User.findById(userId)
+    .orFail(new NotFoundError('Пользоваетеля с таким id нет'))
+    .then(({ name, email }) => res.status(200).send({ name, email }))
     .catch(next);
 };
 
@@ -27,6 +29,9 @@ module.exports.updateUser = (req, res, next) => {
       return res.send({ user });
     })
     .catch((err) => {
+      if (err.code === 11000) {
+        return next(new ConflictingRequestError('Пользователь с таким адресом электронной почты уже зарегистрирован'));
+      }
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные'));
       }
@@ -74,4 +79,4 @@ module.exports.signIn = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.signOut = (req, res) => res.clearCookie('jwt').send({ message: 'logOut' });
+module.exports.signOut = (req, res) => res.clearCookie('jwt').send({ message: 'See you soon' });
