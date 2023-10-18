@@ -81,4 +81,4 @@ module.exports.signIn = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.signOut = (req, res) => res.clearCookie('jwt').send({ message: 'See you soon' });
+module.exports.signOut = (req, res) => res.clearCookie('jwt', {secure: false}).send({ message: 'See you soon' });
