@@ -74,7 +74,7 @@ module.exports.signIn = (req, res, next) => {
       res.cookie('jwt', token, {
         httpOnly: true,
         sameSite: 'None',
-        secure: true
+        // secure: true
       });
       return res.send({ user: payload });
     })
